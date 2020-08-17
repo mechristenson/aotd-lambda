@@ -1,0 +1,8 @@
+{
+    "Records": [
+        {
+            "bucket": "mechris-dev-config",
+            "key": "spotify"
+        }
+    ]
+}
