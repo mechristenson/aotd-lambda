@@ -9,3 +9,6 @@
 *_override.tf.json
 *.terraformrc
 *terraform.rc
+
+# Payload Files
+*.zip
