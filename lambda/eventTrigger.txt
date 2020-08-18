@@ -1,8 +1,10 @@
 {
     "Records": [
         {
-            "bucket": "mechris-dev-config",
-            "key": "spotify"
+            "config_bucket": "mechris-dev-config",
+            "key": "spotify",
+            "storage_bucket": "mechris-aotd",
+            "target_file": "aotd_data.json"
         }
     ]
 }
