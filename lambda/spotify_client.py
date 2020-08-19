@@ -81,25 +81,26 @@ class SpotifyAPI(object):
         return headers
 
 
-    def get_resource(self, lookup_id, resource_type='albums', component_type=None, version='v1'):
+    def get_resource(self, lookup_id, resource_type='albums', component_type=None, query_params=None, version='v1'):
+        endpoint = f"https://api.spotify.com/{version}/{resource_type}/{lookup_id}"
         if component_type:
-            endpoint = f"https://api.spotify.com/{version}/{resource_type}/{lookup_id}/{component_type}"
-        else:
-            endpoint = f"https://api.spotify.com/{version}/{resource_type}/{lookup_id}"
+            endpoint = f"{endpoint}/{component_type}"
+        if query_params:
+            endpoint = f"{endpoint}?{urlencode(query_params)}"
         headers = self.get_resource_headers()
         r = requests.get(endpoint, headers=headers)
         if r.status_code not in range(200, 299):
             return {}
         return r.json()
 
-    def get_album(self, _id, component_type=None):
-        return self.get_resource(_id, resource_type='albums', component_type=component_type)
+    def get_album(self, _id, component_type=None, query_params=None):
+        return self.get_resource(_id, resource_type='albums', component_type=component_type, query_params=query_params)
 
-    def get_artist(self, _id, component_type=None):
-        return self.get_resource(_id, resource_type='artists', component_type=component_type)
+    def get_artist(self, _id, component_type=None, query_params=None):
+        return self.get_resource(_id, resource_type='artists', component_type=component_type, query_params=query_params)
 
-    def get_playlist(self, _id, component_type=None):
-        return self.get_resource(_id, resource_type='playlists', component_type=component_type)
+    def get_playlist(self, _id, component_type=None, query_params=None):
+        return self.get_resource(_id, resource_type='playlists', component_type=component_type, query_params=query_params)
 
     def base_search(self, query_params):
         headers = self.get_resource_headers()
