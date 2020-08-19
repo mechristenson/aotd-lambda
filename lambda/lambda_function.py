@@ -45,10 +45,19 @@ def get_spotify_data(client_id, secret):
   playlist_id = response['playlists']['items'][0]['id']
   data = spotify.get_playlist(playlist_id)
 
+  offset, limit = get_offset_params(data)
+  data = spotify.get_playlist(playlist_id, component_type="tracks",
+                              query_params={"offset": offset, "limit": limit})
   return parse_album_data(data)
 
+def get_offset_params(data):
+  total = data['tracks']['total']
+  limit = data['tracks']['limit']
+  offset = total - limit
+  return offset, limit
+
 def parse_album_data(data):
-  tracks = data['tracks']['items']
+  tracks = data['items']
 
   albums = []
   for track in tracks:
@@ -64,8 +73,5 @@ def parse_album_data(data):
       image = album_details['images'][0]['url']
       release_date = album_details['release_date']
       albums.append(Album(name, artist, url, image, release_date))
-
-      if len(albums) >= 10:
-        break
 
   return albums
